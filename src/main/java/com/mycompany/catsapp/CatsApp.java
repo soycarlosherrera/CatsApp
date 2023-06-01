@@ -29,6 +29,7 @@ public class CatsApp {
             
             switch(optionMenu){
                 case 0:
+                    CatService.showCat();
                     break;
                 default:
                     break;
