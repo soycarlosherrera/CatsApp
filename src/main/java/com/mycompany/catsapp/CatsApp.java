@@ -16,7 +16,7 @@ public class CatsApp {
     public static void main(String[] args) throws IOException {
         
         int optionMenu = -1;
-        String[] buttons = {" 1. Ver Gatos "," 2. Salir "};
+        String[] buttons = {" 1. Ver Gatos "," 2. Ver Favoritos "," 3. Salir "};
         
         do{
             
@@ -31,6 +31,10 @@ public class CatsApp {
             switch(optionMenu){
                 case 0:
                     CatService.showCat();
+                    break;
+                case 1:
+                    Cat cat = new Cat();
+                    CatService.showFavorite(cat.getApiKey());
                     break;
                 default:
                     break;

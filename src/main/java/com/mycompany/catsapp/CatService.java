@@ -118,4 +118,8 @@ public class CatService {
             
     }
     
+    public static void showFavorite(String apiKey){
+    
+    }
+    
 }
