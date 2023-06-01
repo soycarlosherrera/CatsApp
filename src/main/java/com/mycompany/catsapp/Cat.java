@@ -10,17 +10,17 @@ package com.mycompany.catsapp;
  */
 public class Cat {
     
-    int id_cat;
+    String id;
     String url;
     String apiKey = "live_tBTR3LD77CFUQMU6A5wA4lrZmx64hRJX8L1bLwYqBSh818ycgNCck3tgsTIlxFrU";
     String image;
 
-    public int getId_cat() {
-        return id_cat;
+    public String getId() {
+        return id;
     }
 
-    public void setId_cat(int id_cat) {
-        this.id_cat = id_cat;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUrl() {
