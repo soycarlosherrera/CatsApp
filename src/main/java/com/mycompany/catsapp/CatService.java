@@ -118,8 +118,92 @@ public class CatService {
             
     }
     
-    public static void showFavorite(String apiKey){
+    public static void showFavorite(String apiKey) throws IOException{
+        
+        OkHttpClient client = new OkHttpClient();                
+        Request request = new Request.Builder()
+            .url("https://api.thecatapi.com/v1/favourites")
+            .get()
+            .addHeader("x-api-key", apiKey)
+            .build();
+        Response response = client.newCall(request).execute();
+        
+        //Guardamos string con la respuesta
+        String catJson = response.body().string();
+        
+        //Crear un objeto Gson
+        Gson gson = new Gson();             
+        
+        CatFavorite[] catFavorite = gson.fromJson(catJson, CatFavorite[].class);          
+        
+        if(catFavorite.length > 0){
+            
+            int min = 1;
+            int max = catFavorite.length;
+            int random = (int) (Math.random() * ((max-min)+1)) + min;
+            int index = random - 1;
+            
+            CatFavorite catFavoriteChose = catFavorite[index];
+            
+            //Redimensionar imagen en caso necesario
+            Image image = null;
+        
+            try{               
+            
+                URL url = new URL(catFavoriteChose.image.getUrl());
+                
+                image = ImageIO.read(url);
+            
+                ImageIcon catImage = new ImageIcon(image);
+            
+                if(catImage.getIconWidth()>800){
+                
+                    //Redimensionamos
+                    Image catBase = catImage.getImage();
+                    Image catRefactor = catBase.getScaledInstance(800, 600, java.awt.Image.SCALE_SMOOTH);
+                
+                    catImage = new ImageIcon(catRefactor);
+                
+                }
+            
+                String menu = "...Opciones:  \n"
+                            + " 1. Ver otra imagen. \n"
+                            + " 2. Eliminar Favorito. \n"
+                            + " 3. Volver. \n";
+            
+                String[] button = {"Ver otra imagen","Eliminar favorito","Volver"};            
+                String id_cat = catFavoriteChose.getId();
+                String option = (String) JOptionPane.showInputDialog(null,menu,id_cat,JOptionPane.INFORMATION_MESSAGE,catImage,button,button[0]);
+            
+                int selection = -1;
+            
+                for(int i=0;i<button.length;i++){
+                    if(option.equals(button[i])){
+                        selection = i;
+                    }
+                } 
+            
+                switch(selection){
+                    case 0:
+                        showFavorite(apiKey);
+                        break;
+                    case 1:
+                        deleteFavorite(catFavoriteChose);
+                        break;
+                    default:
+                        break;
+                }
+            
+            }catch(IOException e){
+                System.out.println(e);
+            }  
+            
+        }
+        
+    }
     
+    public static void deleteFavorite(CatFavorite catFavorite){
+        
     }
     
 }
