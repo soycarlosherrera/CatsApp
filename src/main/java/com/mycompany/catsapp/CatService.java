@@ -5,8 +5,10 @@
 package com.mycompany.catsapp;
 
 import com.google.gson.Gson;
+import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 import java.awt.Image;
 import java.io.IOException;
@@ -94,6 +96,25 @@ public class CatService {
     }
     
     public static void favoriteCat(Cat cat){
+        
+        try{
+            
+            OkHttpClient client = new OkHttpClient();
+            MediaType mediaType = MediaType.parse("application/json");
+            RequestBody body = RequestBody.create(mediaType, "{\r\n     \"image_id\": \""+cat.getId()+"\"\r\n}");
+            Request request = new Request.Builder()
+                .url("https://api.thecatapi.com/v1/favourites")
+                .method("POST", body)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("x-api-key",cat.getApiKey())
+                .build();
+            Response response = client.newCall(request).execute();
+            
+        }catch(IOException e){
+            
+            System.out.println(e);
+            
+        }
             
     }
     
